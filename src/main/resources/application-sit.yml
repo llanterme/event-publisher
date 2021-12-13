@@ -2,7 +2,7 @@ server:
   port: 80
 spring.datasource:
   driverClassName: com.mysql.jdbc.Driver
-  url: jdbc:mysql://events-db.cfnhmecxugt6.us-east-2.rds.amazonaws.com:3306/events-db
+  url: jdbc:mysql://event-processing-db.cfnhmecxugt6.us-east-2.rds.amazonaws.com:3306/event-processing-db
   username: admin
   password: Passw0rd1
   platform: mysql

@@ -6,7 +6,7 @@ ARG ARTIFACT_ID
 EXPOSE 80
 
 #ADD ./target/${JAR_FILE} app.jar
-ADD ./target/couponzilla-service-1.0.1-SNAPSHOT.jar app.jar
+ADD ./target/event-publisher-1.0.1-SNAPSHOT.jar app.jar
 
 RUN sh -c 'touch /app.jar'
 

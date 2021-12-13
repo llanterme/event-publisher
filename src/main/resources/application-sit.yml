@@ -2,8 +2,8 @@ server:
   port: 80
 spring.datasource:
   driverClassName: com.mysql.jdbc.Driver
-  url: jdbc:mysql://digital-cowboy-db-instance.cfnhmecxugt6.us-east-2.rds.amazonaws.com:3306/couponzilla_db
-  username: root
+  url: jdbc:mysql://events-db.cfnhmecxugt6.us-east-2.rds.amazonaws.com:3306/events-db
+  username: admin
   password: Passw0rd1
   platform: mysql
   jpa:

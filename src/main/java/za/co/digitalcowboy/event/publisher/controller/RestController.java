@@ -94,7 +94,7 @@ public class RestController {
 
         SendMessageRequest sendMessageStandardQueue = new SendMessageRequest()
                 .withQueueUrl(CITY_QUEUE)
-                .withMessageBody("A simple message.")
+                .withMessageBody("registration message")
                 .withMessageAttributes(messageAttributes);
 
         awsConfig.getAmazonSQSAsyncClient().sendMessage(sendMessageStandardQueue);

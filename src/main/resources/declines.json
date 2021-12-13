@@ -1,0 +1,63 @@
+
+{
+    "transactionPayload": {
+        "type": "WITHDRAWAL",
+        "method": "SEND_MONEY_ON_US",
+        "amount": 5001,
+        "currencyCode": "ZAR",
+        "notes": "Unsuccessful SendMoney to 0835901234 - High risk transactions Limit Exceeded",
+        "customInformation": [{
+            "customFieldID": "EFT_PAYMENT_USECASE",
+            "value": "SendMoney",
+            "customFieldSetGroupIndex": null
+        }, {
+            "customFieldID": "EFT_DESIGNATION",
+            "value": "Us-On-Us",
+            "customFieldSetGroupIndex": null
+        }, {
+            "customFieldID": "EFT_PAYMENT_STREAM",
+            "value": "SendMoney",
+            "customFieldSetGroupIndex": null
+        }, {
+            "customFieldID": "EFT_ORIGINATING_CHANNEL_ID",
+            "value": "64A215B1-F71C-41D3-9007-44E954365000",
+            "customFieldSetGroupIndex": null
+        }, {
+            "customFieldID": "EFT_TRANSACTIONID",
+            "value": "SendMoney/PUC.09/1/5001",
+            "customFieldSetGroupIndex": null
+        }, {
+            "customFieldID": "EFT_HOMING_REFERENCE",
+            "value": "0835901234",
+            "customFieldSetGroupIndex": null
+        }, {
+            "customFieldID": "EFT_HOMING_ACCOUNT_NUMBER",
+            "value": "51000009161",
+            "customFieldSetGroupIndex": null
+        }, {
+            "customFieldID": "EFT_ORIGIN_REFERENCE",
+            "value": "xyz",
+            "customFieldSetGroupIndex": null
+        }, {
+            "customFieldID": "EFT_ORIGIN_ACCOUNT_NUMBER",
+            "value": "51000009286",
+            "customFieldSetGroupIndex": null
+        }, {
+            "customFieldID": "EFT_CHANNEL_ID",
+            "value": "SMARTAPP",
+            "customFieldSetGroupIndex": null
+        }, {
+            "customFieldID": "TXN_NUMBER",
+            "value": "TXN1046",
+            "customFieldSetGroupIndex": null
+        }]
+    },
+    "accountId": "51000009286",
+    "txn": "TXN1046",
+    "response": {
+        "returnCode": 938,
+        "returnStatus": "High risk transactions Limit Exceeded",
+        "transactionIds": null,
+        "balance": null
+    }
+}

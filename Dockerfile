@@ -3,7 +3,7 @@ FROM amazoncorretto:11
 ARG JAR_FILE
 ARG ARTIFACT_ID
 
-EXPOSE 80
+EXPOSE 8081
 
 #ADD ./target/${JAR_FILE} app.jar
 ADD ./target/event-publisher-1.0.1-SNAPSHOT.jar app.jar

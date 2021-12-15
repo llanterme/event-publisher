@@ -1,0 +1,124 @@
+Parameters:
+  App:
+    Type: String
+    Description: Your application's name.
+  Env:
+    Type: String
+    Description: The environment name your service, job, or workflow is being deployed to.
+  Name:
+    Type: String
+    Description: The name of the service, job, or workflow being deployed.
+  # Customize your Aurora Serverless cluster by setting the default value of the following parameters.
+  eventpublisherdbclusterDBName:
+    Type: String
+    Description: The name of the initial database to be created in the DB cluster.
+    Default: couponzilla_db
+    # Cannot have special characters
+    # Naming constraints: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.Constraints
+  eventpublisherdbclusterDBAutoPauseSeconds:
+    Type: Number
+    Description: The duration in seconds before the cluster pauses.
+    Default: 1000
+Mappings:
+  eventpublisherdbclusterEnvScalingConfigurationMap: 
+    test:
+      "DBMinCapacity": 1 # AllowedValues: [1, 2, 4, 8, 16, 32, 64, 128, 256]
+      "DBMaxCapacity": 8 # AllowedValues: [1, 2, 4, 8, 16, 32, 64, 128, 256]
+    prod:
+      "DBMinCapacity": 1 # AllowedValues: [1, 2, 4, 8, 16, 32, 64, 128, 256]
+      "DBMaxCapacity": 8 # AllowedValues: [1, 2, 4, 8, 16, 32, 64, 128, 256]
+    All:
+      "DBMinCapacity": 1 # AllowedValues: [1, 2, 4, 8, 16, 32, 64, 128, 256]
+      "DBMaxCapacity": 8 # AllowedValues: [1, 2, 4, 8, 16, 32, 64, 128, 256]
+
+Resources:
+  eventpublisherdbclusterDBSubnetGroup:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: Group of Copilot private subnets for Aurora cluster.
+      SubnetIds:
+        !Split [',', { 'Fn::ImportValue': !Sub '${App}-${Env}-PrivateSubnets' }]
+  eventpublisherdbclusterSecurityGroup:
+    Metadata:
+      'aws:copilot:description': 'A security group for your workload to access the DB cluster eventpublisherdbcluster'
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: !Sub 'The Security Group for ${Name} to access DB cluster eventpublisherdbcluster.'
+      VpcId:
+        Fn::ImportValue:
+          !Sub '${App}-${Env}-VpcId'
+      Tags:
+        - Key: Name
+          Value: !Sub 'copilot-${App}-${Env}-${Name}-Aurora'
+  eventpublisherdbclusterDBClusterSecurityGroup:
+    Metadata:
+      'aws:copilot:description': 'A security group for your DB cluster eventpublisherdbcluster'
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: The Security Group for the database cluster.
+      SecurityGroupIngress:
+        - ToPort: 3306
+          FromPort: 3306
+          IpProtocol: tcp
+          Description: !Sub 'From the Aurora Security Group of the workload ${Name}.'
+          SourceSecurityGroupId: !Ref eventpublisherdbclusterSecurityGroup
+      VpcId:
+        Fn::ImportValue:
+          !Sub '${App}-${Env}-VpcId'
+  eventpublisherdbclusterAuroraSecret:
+    Metadata:
+      'aws:copilot:description': 'A Secrets Manager secret to store your DB credentials'
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: !Sub Aurora main user secret for ${AWS::StackName}
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "admin"}'
+        GenerateStringKey: "password"
+        ExcludePunctuation: true
+        IncludeSpace: false
+        PasswordLength: 16
+  eventpublisherdbclusterDBClusterParameterGroup:
+    Metadata:
+      'aws:copilot:description': 'A DB parameter group for engine configuration values'
+    Type: 'AWS::RDS::DBClusterParameterGroup'
+    Properties:
+      Description: !Ref 'AWS::StackName'
+      Family: 'aurora-mysql5.7'
+      Parameters:
+        character_set_client: 'utf8'
+  eventpublisherdbclusterDBCluster:
+    Metadata:
+      'aws:copilot:description': 'The eventpublisherdbcluster Aurora Serverless database cluster'
+    Type: 'AWS::RDS::DBCluster'
+    Properties:
+      MasterUsername:
+        !Join [ "",  [ '{{resolve:secretsmanager:', !Ref eventpublisherdbclusterAuroraSecret, ":SecretString:username}}" ]]
+      MasterUserPassword:
+        !Join [ "",  [ '{{resolve:secretsmanager:', !Ref eventpublisherdbclusterAuroraSecret, ":SecretString:password}}" ]]
+      DatabaseName: !Ref eventpublisherdbclusterDBName
+      Engine: 'aurora-mysql'
+      EngineVersion: '5.7.mysql_aurora.2.07.1'
+      EngineMode: serverless
+      DBClusterParameterGroupName: !Ref eventpublisherdbclusterDBClusterParameterGroup
+      DBSubnetGroupName: !Ref eventpublisherdbclusterDBSubnetGroup
+      VpcSecurityGroupIds:
+        - !Ref eventpublisherdbclusterDBClusterSecurityGroup
+      ScalingConfiguration:
+        AutoPause: true
+        # Replace "All" below with "!Ref Env" to set different autoscaling limits per environment.
+        MinCapacity: !FindInMap [eventpublisherdbclusterEnvScalingConfigurationMap, All, DBMinCapacity]
+        MaxCapacity: !FindInMap [eventpublisherdbclusterEnvScalingConfigurationMap, All, DBMaxCapacity]
+        SecondsUntilAutoPause: !Ref eventpublisherdbclusterDBAutoPauseSeconds
+  eventpublisherdbclusterSecretAuroraClusterAttachment:
+    Type: AWS::SecretsManager::SecretTargetAttachment
+    Properties:
+      SecretId: !Ref eventpublisherdbclusterAuroraSecret
+      TargetId: !Ref eventpublisherdbclusterDBCluster
+      TargetType: AWS::RDS::DBCluster
+Outputs:
+  eventpublisherdbclusterSecret: # injected as EVENTPUBLISHERDBCLUSTER_SECRET environment variable by Copilot.
+    Description: "The JSON secret that holds the database username and password. Fields are 'host', 'port', 'dbname', 'username', 'password', 'dbClusterIdentifier' and 'engine'"
+    Value: !Ref eventpublisherdbclusterAuroraSecret
+  eventpublisherdbclusterSecurityGroup:
+    Description: "The security group to attach to the workload."
+    Value: !Ref eventpublisherdbclusterSecurityGroup

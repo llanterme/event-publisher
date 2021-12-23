@@ -1,6 +1,8 @@
 spring:
 #  profiles.active: @activatedProperties@
-  profiles.active: ${COPILOT_ENVIRONMENT_NAME}
+  profiles:
+#      active: ${COPILOT_ENVIRONMENT_NAME}
+       active: test
 
 
   include:  application-${spring.profiles.active}.yml

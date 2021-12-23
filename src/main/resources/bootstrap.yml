@@ -1,8 +1,8 @@
-aws:
-  secretsmanager:
-    default-context: application
-    prefix: /dev/grapevine/api
-    profile-separator: _
-    fail-fast: true
-    name: ByteNovusapplication
-    enabled: true
+#aws:
+#  secretsmanager:
+#    default-context: application
+#    prefix: /dev/grapevine/api
+#    profile-separator: _
+#    fail-fast: true
+#    name: ByteNovusapplication
+#    enabled: true

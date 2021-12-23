@@ -1,5 +1,8 @@
 spring:
-  profiles.active: @activatedProperties@
+#  profiles.active: @activatedProperties@
+  profiles.active: ${COPILOT_ENVIRONMENT_NAME}
+
+
   include:  application-${spring.profiles.active}.yml
 server:
   port: 8081

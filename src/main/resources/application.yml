@@ -1,5 +1,8 @@
-spring:
-  profiles.active: dev
+#spring:
+#  application:
+#    name: event-publisher
+#  profiles:
+#    active: {$COPILOT_ENVIRONMENT_NAME}
 server:
   port: 8081
   servlet:

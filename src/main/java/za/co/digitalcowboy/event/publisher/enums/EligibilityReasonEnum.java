@@ -8,7 +8,7 @@ public enum EligibilityReasonEnum implements Serializable {
 
     UNHANDLED_ELIGIBILITY_EXCEPTION("999", "Unhandled Exception on eligibility evaluation", 1),
     USER_ALREADY_REGISTERED("02", "User already registered", 100),
-    COUPON_ALREADY_CAPTURED("03", "Coupon already captured", 101),
+    COUPON_ALREADY_CAPTURED("03", "Coupon already captureds", 101),
     INVALID_USER_CREDENTIALS("03", "Invalid username or password", 102),
     SUCCESSFUL("00", "Successful", 999);
 

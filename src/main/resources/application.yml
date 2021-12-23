@@ -1,6 +1,7 @@
 spring:
   profiles:
-      active: "${COPILOT_ENVIRONMENT_NAME:local}"
+#      active: "${COPILOT_ENVIRONMENT_NAME:local}"
+       active: sit
 
 server:
   port: 8081

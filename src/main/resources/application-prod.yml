@@ -16,18 +16,55 @@ app.auth:
   user:
     userName: test
     authorizationHash: bab26aeff98b59ff1db77a5240d7f400c10cdae0
-  users[0]:
+  'users[0]':
     userName: ws02
     authorizationHash: bab26aeff98b59ff1db77a5240d7f400c10cdae0
-  users[1]:
+  'users[1]':
     userName: devutils
     authorizationHash: cbf1c1892f393111c4cb043f6c285670249526fd
-  users[2]:
+  'users[2]':
     userName: local
     authorizationHash: 12ff9874235f510de1ade0621662ac7fb84b43d1
-
 app:
-  otpGateWayUrl: https://api.bulksms.com/v1/messages
+  otpGateWayUrl: 'https://api.bulksms.com/v1/messages'
+  paygeniusCreateUrl: 'https://developer.paygenius.co.za/pg/api/v2/redirect/create'
+  paygeniusSecret: '29b6c0d5-9169-4d54-989d-10c3dfc198c3'
+  paygeniusToken: '99725078-d7e8-4dca-a580-11d7619faf77'
+  paygeniusEftUrl :  'https://developer.paygenius.co.za/pg/api/v2/create/eft'
+
+spring:
+  cloud:
+    stream:
+      #        default:
+      #          producer:
+      #            headerMode: none
+      bindings:
+        output-decline:
+          destination: transaction-declined-request-topic
+          contentType: application/json
+        master-user-updated-channel:
+          destination: master-user-updated-channel
+          contentType: application/json
+          producer:
+            useNativeEncoding: false
+            headerMode: none
+
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAZHKB2QCTGTSLNYLA
+      secretKey: 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
+    region:
+      static: us-east-2
+      auto: false
+    stack:
+      auto: false
+
+messenger4j:
+  appSecret: 732f489ef705d26c547266aa4c894d5c
+  verifyToken : digital_cowboy_verify_string_token
+  pageAccessToken: EAAEsigTR69cBAMwYsu8COC0cMSZCVCvPnyv6EKRemSsPx9beYZCnC71WJPd7a4E6xnBUlpWb2v7s9NgEkGdFGYOoVfmO4pToYnbLYj2NgNam7tp6W5FDCzZCxPlZAmA1o3sKblOUVLhXWFeQDXdgvcmOfYeZCmxc1OeQVos8wPqxVUnuaitF8
 
 
 

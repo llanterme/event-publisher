@@ -1,5 +1,5 @@
 spring:
-  profiles.active: local
+  profiles.active: @activatedProperties@
   include:  application-${spring.profiles.active}.yml
 server:
   port: 8081

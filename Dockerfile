@@ -14,4 +14,4 @@ ENV JAVA_OPTS=""
 
 # Regarding settings of java.security.egd, see http://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source
 #ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Dspring.profiles.active=$COPILOT_ENVIRONMENT_NAME -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Dspring.profiles.active=$COPILOT_ENVIRONMENT_NAME -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Dspring.profiles.active=sit -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]

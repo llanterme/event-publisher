@@ -39,7 +39,7 @@ public class AwsConfig {
     private AmazonSQSAsync amazonSQSAsyncClient;
 
     @Setter
-    @Value("${cloud.aws.region.static:us-east-2}")
+    @Value("${cloud.aws.region.static:eu-west-2}")
     private String region;
 
 

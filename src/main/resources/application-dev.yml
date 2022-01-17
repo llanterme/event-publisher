@@ -1,6 +1,6 @@
 spring.datasource:
   driverClassName: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://event-processing-db.cfnhmecxugt6.us-east-2.rds.amazonaws.com:3306/couponzilla_db
+  url: jdbc:mysql://global-service-dev-instance.ckbyw1z6xexn.eu-west-2.rds.amazonaws.com:3306/couponzilla_db
   username: admin
   password: Passw0rd1
   platform: mysql
